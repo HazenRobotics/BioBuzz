@@ -26,14 +26,13 @@ public class Drive {
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        // TODO: fix weird error
-        public void drive(double forward, double rotate, double strafe) {
-
-            frontLeft.setPower(forward + strafe + rotate);
-            backLeft.setPower(forward - strafe + rotate);
-            frontRight.setPower(forward - strafe - rotate);
-            backRight.setPower(forward + strafe - rotate);
-        }
     }
+    public void drive(double forward, double rotate, double strafe) {
+
+        frontLeft.setPower(forward + strafe + rotate);
+        backLeft.setPower(forward - strafe + rotate);
+        frontRight.setPower(forward - strafe - rotate);
+        backRight.setPower(forward + strafe - rotate);
+    }
+
 }
