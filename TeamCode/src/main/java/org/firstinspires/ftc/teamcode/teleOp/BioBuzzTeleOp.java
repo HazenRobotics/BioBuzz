@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
+import org.firstinspires.ftc.teamcode.subsystems.Launcher;
 
 @TeleOp(name="BioBuzz TeleOp")
 public class BioBuzzTeleOp extends LinearOpMode {
@@ -11,10 +12,12 @@ public class BioBuzzTeleOp extends LinearOpMode {
 
 
     Drive drive;
+    Launcher launcher;
 
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new Drive(hardwareMap);
+        launcher = new Launcher(hardwareMap);
 
         double forward;
         double strafe;
