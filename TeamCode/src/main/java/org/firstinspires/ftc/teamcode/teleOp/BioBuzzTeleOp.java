@@ -17,7 +17,6 @@ public class BioBuzzTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new Drive(hardwareMap);
-        launcher = new Launcher(hardwareMap);
 
         double forward;
         double strafe;
