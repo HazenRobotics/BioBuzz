@@ -18,7 +18,6 @@ public class Drive {
         frontRight = HW.get(DcMotorEx.class, "frontRight");
         backRight = HW.get(DcMotorEx.class, "backRight");
 
-
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
