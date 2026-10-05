@@ -22,8 +22,6 @@ public class Drive {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        // TODO: when testing check which motors need to be reversed
-
 
         // Makes motors stop right when they are turned off
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
