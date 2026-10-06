@@ -16,6 +16,11 @@ public class BiobuzzAuto extends OpMode {
     private Follower follower;
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
+    private enum AutoState {
+        START
+    }
+
+    private AutoState autoState;
 
     // create poses
 
@@ -30,6 +35,14 @@ public class BiobuzzAuto extends OpMode {
     // south red paths
     private Path startSouthRedToScore() {
         return line(startSouthRed, shootSouthRed).linear(startSouthRed, shootSouthRed);
+    }
+
+
+    public void updateStateMachine() {
+        switch (autoState) {
+            case START:
+                // pass for now
+        }
     }
 
     @Override
