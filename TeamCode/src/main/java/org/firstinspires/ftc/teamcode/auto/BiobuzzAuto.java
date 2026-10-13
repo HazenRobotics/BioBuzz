@@ -9,16 +9,21 @@ import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.subsystems.AprilTagDetector;
+
 
 @Autonomous(name="mainAuto")
 public class BiobuzzAuto extends OpMode {
+
+    AprilTagDetector aprilTagDetector = new AprilTagDetector();
 
     private Follower follower;
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
     private enum AutoState {
         START,
-        CHECK_APRIL_TAGS
+        CHECK_APRIL_TAGS,
+        MOVE_TO_SHOOT
     }
 
     private AutoState autoState;
@@ -73,11 +78,16 @@ public class BiobuzzAuto extends OpMode {
                 break;
             case CHECK_APRIL_TAGS:
                 // code for scanning April tags to figure out where the robot is goes here
+                 break;
+            case MOVE_TO_SHOOT:
+                // make if statements to change action based on position
+                break;
         }
     }
 
     @Override
     public void init() {
+        aprilTagDetector.init(hardwareMap, telemetry);
         autoState = AutoState.START;
     }
 
@@ -88,6 +98,6 @@ public class BiobuzzAuto extends OpMode {
 
     @Override
     public void loop() {
-
+        aprilTagDetector.update();
     }
 }

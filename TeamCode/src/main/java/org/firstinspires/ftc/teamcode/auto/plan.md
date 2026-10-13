@@ -17,3 +17,16 @@ What happens in this state:
 How to exit state:
 
 * After auto is initialized than move on to check for April tags state
+
+### Check April Tags state
+This state is in charge of detecting the April tags to find the
+position of the robot on the field.
+
+What happens in this state:
+
+* Activate April tag detection for a few seconds
+
+How to exit state:
+
+* After a few seconds of not finding anything or after
+successfully scanning the April tags and storing the area the robot is in
