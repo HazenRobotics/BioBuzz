@@ -6,16 +6,19 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Launcher {
 
-    private DcMotorEx launcher;
+    private DcMotorEx leftLauncher;
+    private DcMotorEx rightLauncher;
     public final int LAUNCHER_TARGET_VELOCITY = 1250;
     public final int LAUNCHER_MIN_VELOCITY = 1200;
     private boolean launcherPowerStatus;
     public Launcher(HardwareMap HW) {
-        launcher = HW.get(DcMotorEx.class, "launcher");
+        leftLauncher = HW.get(DcMotorEx.class, "leftLauncher");
+        rightLauncher = HW.get(DcMotorEx.class, "rightLauncher");
 
         // TODO: check flywheel motor direction
 
-        launcher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         launcherPowerStatus = false;
     }
 
@@ -32,10 +35,12 @@ public class Launcher {
 
     // TODO: test this
     public void startLauncher() {
-        launcher.setVelocity(LAUNCHER_TARGET_VELOCITY);
+        leftLauncher.setVelocity(LAUNCHER_TARGET_VELOCITY);
+        rightLauncher.setVelocity(LAUNCHER_TARGET_VELOCITY);
     }
 
     public void stopLauncher() {
-        launcher.setVelocity(0);
+        leftLauncher.setVelocity(0);
+        rightLauncher.setVelocity(0);
     }
 }
