@@ -55,7 +55,7 @@ public class AprilTagDetector {
     public AprilTagSingleDetection getTagById(int id) {
         for (AprilTagDetection detection : detectedTags) {
             AprilTagSingleDetection singleDetection = (AprilTagSingleDetection) detection;
-            if (singleDetection.id == id) { // TODO: figure out how to find the id in the detection
+            if (singleDetection.id == id) {
                 return singleDetection;
             }
         }
@@ -76,6 +76,19 @@ public class AprilTagDetector {
             telemetry.addLine(String.format("\n==== (ID %d) Unknown", detectedId.id));
             telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detectedId.center.x, detectedId.center.y));
         }
+    }
+
+    public void displaySimpleTelemetry(AprilTagSingleDetection detectedId) {
+
+        if (detectedId == null) {return;}
+
+        if (detectedId.metadata != null) {
+            telemetry.addLine(String.format("\n==== (ID %d) %s", detectedId.id, detectedId.metadata.name));
+        }
+        else {
+            telemetry.addLine(String.format("\n==== (ID %d) Unknown", detectedId.id));
+        }
+
     }
 
     public void stop() {
