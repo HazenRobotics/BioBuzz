@@ -20,6 +20,7 @@ public class BioBuzzTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         drive = new Drive(hardwareMap);
         intake = new Intake(hardwareMap);
+        launcher = new Launcher(hardwareMap);
 
         double forward;
         double strafe;
@@ -28,7 +29,7 @@ public class BioBuzzTeleOp extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
 
-            forward = gamepad1.left_stick_y;
+            forward = -gamepad1.left_stick_y;
             strafe = gamepad1.left_stick_x;
             rotate = gamepad1.right_stick_x;
             drive.drive(forward, rotate, strafe);
@@ -43,6 +44,15 @@ public class BioBuzzTeleOp extends LinearOpMode {
                 launcher.toggleLauncher();
             }
 
+            if (gamepad1.dpad_up) {
+                launcher.changeVelocity(10);
+            } else if (gamepad1.dpad_down) {
+                launcher.changeVelocity(-10);
+            }
+
+            telemetry.addData("Target Velocity: ", launcher.getTargetVelocityTelemetry());
+            telemetry.addData("Velocity: ", launcher.getVelocityTelemetry());
+            telemetry.update();
         }
     }
 }

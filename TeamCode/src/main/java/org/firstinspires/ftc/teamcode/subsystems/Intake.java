@@ -14,7 +14,7 @@ public class Intake {
 
     private boolean intakePowerStatus;
     private final double MAX_SPEED_INTAKE_WHEELS = 0.7;
-    private final double MAX_SPEED_GECKO_WHEELS = 1.0;
+    private final double MAX_SPEED_GECKO_WHEELS = 0.35;
     private final double STOP_SPEED = 0.0;
 
     public Intake(HardwareMap HW) {
