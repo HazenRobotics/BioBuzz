@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -14,7 +15,7 @@ public class Intake {
 
     private boolean intakePowerStatus;
     private final double MAX_SPEED_INTAKE_WHEELS = 0.7;
-    private final double MAX_SPEED_GECKO_WHEELS = 0.35;
+    private final double MAX_SPEED_GECKO_WHEELS = 0.65;
     private final double STOP_SPEED = 0.0;
 
     public Intake(HardwareMap HW) {
@@ -22,7 +23,9 @@ public class Intake {
         leftIntake = HW.get(CRServo.class, "leftIntake");
         rightIntake = HW.get(CRServo.class, "rightIntake");
 
-        // TODO: check the direction of the servos and motor
+        // TODO: check the direction of the servos
+        geckoWheels.setDirection(DcMotorSimple.Direction.REVERSE);
+
         geckoWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         intakePowerStatus = false;

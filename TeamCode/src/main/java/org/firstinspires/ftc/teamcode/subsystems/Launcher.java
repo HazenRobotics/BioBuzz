@@ -16,8 +16,6 @@ public class Launcher {
         leftLauncher = HW.get(DcMotorEx.class, "leftLauncher");
         rightLauncher = HW.get(DcMotorEx.class, "rightLauncher");
 
-        // TODO: check flywheel motor direction
-
         rightLauncher.setDirection(DcMotorSimple.Direction.REVERSE);
 
         leftLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -36,7 +34,6 @@ public class Launcher {
         }
     }
 
-    // TODO: test this
     //test method should probably remove in the future
     public void changeVelocity(int deltaVelocity) {
         LAUNCHER_TARGET_VELOCITY += deltaVelocity;

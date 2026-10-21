@@ -122,6 +122,7 @@ public class BiobuzzAuto extends OpMode {
 
         aprilTagDetector.init(hardwareMap, telemetry);
         follower = Constants.create(hardwareMap);
+        // TODO: should move this into the check for april tags state
         if (startLocation == StartLocation.NORTH_RED) {follower.setPose(startNorthRed);}
         else if (startLocation == StartLocation.SOUTH_RED) {follower.setPose(startSouthRed);}
         else if (startLocation == StartLocation.NORTH_BLUE) {follower.setPose(startNorthBlue);}
