@@ -18,6 +18,7 @@ public class Launcher {
 
         rightLauncher.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
         leftLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         launcherPowerStatus = false;
@@ -54,6 +55,9 @@ public class Launcher {
     // mostly for testing
     public double getVelocityTelemetry() {
         return leftLauncher.getVelocity();
+    }
+    public double getRightVelocityTelemetry() {
+        return rightLauncher.getVelocity();
     }
     public int getTargetVelocityTelemetry() {
         return LAUNCHER_TARGET_VELOCITY;

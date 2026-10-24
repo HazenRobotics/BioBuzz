@@ -1,14 +1,19 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 import static com.pedropathing.api.Paths.line;
+import static com.pedropathing.ivy.Scheduler.schedule;
+import static com.pedropathing.ivy.groups.Groups.sequential;
+import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.AprilTagDetector;
@@ -29,7 +34,9 @@ public class BiobuzzAuto extends OpMode {
     private enum AutoState {
         START,
         CHECK_APRIL_TAGS,
-        MOVE_TO_SHOOT
+        START_ROUTINE,
+        RUNNING_ROUTINE
+
     }
 
     private enum StartLocation {
@@ -87,33 +94,69 @@ public class BiobuzzAuto extends OpMode {
     private Path startNorthBlueToScore() {
         return line(startNorthBlue, shootNorthBlue).linear(startNorthBlue, shootNorthBlue);
     }
-
     public void updateStateMachine() {
         switch (autoState) {
+
             case START:
                 // pass for now, figure out what needs to be added here
-                northRed1 = aprilTagDetector.getTagById(30);
-                southRed1 = aprilTagDetector.getTagById(34);
-                northBlue1 = aprilTagDetector.getTagById(42);
-                southBlue1 = aprilTagDetector.getTagById(38);
+
                 autoState = AutoState.CHECK_APRIL_TAGS;
                 break;
             case CHECK_APRIL_TAGS:
                 // code for scanning April tags to figure out where the robot is goes here
+                northRed1 = aprilTagDetector.getTagById(30);
+                southRed1 = aprilTagDetector.getTagById(34);
+                northBlue1 = aprilTagDetector.getTagById(42);
+                southBlue1 = aprilTagDetector.getTagById(38);
                 if (northRed1 != null) {
+                    follower.setPose(startNorthRed);
                     startLocation = StartLocation.NORTH_RED;
                 } else if (southRed1 != null) {
+                    follower.setPose(startSouthRed);
                     startLocation = StartLocation.SOUTH_RED;
                 } else if (northBlue1 != null) {
+                    follower.setPose(startNorthBlue);
                     startLocation = StartLocation.NORTH_BLUE;
                 } else if (southBlue1 != null) {
+                    follower.setPose(startSouthBlue);
                     startLocation = StartLocation.SOUTH_BLUE;
+                } else {
+                    break;
                 }
+                autoState = AutoState.START_ROUTINE;
                 break;
-            case MOVE_TO_SHOOT:
+            case START_ROUTINE:
                 // make if statements to change action based on position
+                schedule(routine());
+                autoState = AutoState.RUNNING_ROUTINE;
+                break;
+            case RUNNING_ROUTINE:
                 break;
         }
+    }
+
+    private Command routine() {
+        Path firstPath;
+        switch (startLocation) {
+            case NORTH_RED:
+                firstPath = startNorthRedToScore();
+                break;
+            case SOUTH_RED:
+                firstPath = startSouthRedToScore();
+                break;
+            case NORTH_BLUE:
+                firstPath = startNorthBlueToScore();
+                break;
+            case SOUTH_BLUE:
+                firstPath = startSouthBlueToScore();
+                break;
+            default:
+                throw new IllegalStateException("Unknown starting location!");
+        }
+        return sequential(
+            follow(follower, firstPath)
+            // could put commands that go after first path
+        );
     }
 
     @Override
@@ -122,11 +165,6 @@ public class BiobuzzAuto extends OpMode {
 
         aprilTagDetector.init(hardwareMap, telemetry);
         follower = Constants.create(hardwareMap);
-        // TODO: should move this into the check for april tags state
-        if (startLocation == StartLocation.NORTH_RED) {follower.setPose(startNorthRed);}
-        else if (startLocation == StartLocation.SOUTH_RED) {follower.setPose(startSouthRed);}
-        else if (startLocation == StartLocation.NORTH_BLUE) {follower.setPose(startNorthBlue);}
-        else if (startLocation == StartLocation.SOUTH_BLUE) {follower.setPose(startSouthBlue);}
 
         follower.update();
     }
@@ -142,9 +180,8 @@ public class BiobuzzAuto extends OpMode {
         Scheduler.execute();
         aprilTagDetector.update();
         updateStateMachine();
-        aprilTagDetector.displaySimpleTelemetry(northRed1);
-        aprilTagDetector.displaySimpleTelemetry(southRed1);
-        aprilTagDetector.displaySimpleTelemetry(northBlue1);
-        aprilTagDetector.displaySimpleTelemetry(southBlue1);
+
+        telemetry.addData("XPos", aprilTagDetector.getPosX(30));
+        telemetry.update();
     }
 }

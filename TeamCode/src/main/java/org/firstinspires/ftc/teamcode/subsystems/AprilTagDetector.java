@@ -21,7 +21,7 @@ public class AprilTagDetector {
 
     private AprilTagProcessor aprilTagProcessor;
     private VisionPortal visionPortal;
-    private ArrayList<AprilTagDetection> detectedTags = new ArrayList<>();
+    private List<AprilTagDetection> detectedTags;
 
     private Telemetry telemetry;
 
@@ -54,9 +54,11 @@ public class AprilTagDetector {
 
     public AprilTagSingleDetection getTagById(int id) {
         for (AprilTagDetection detection : detectedTags) {
-            AprilTagSingleDetection singleDetection = (AprilTagSingleDetection) detection;
-            if (singleDetection.id == id) {
-                return singleDetection;
+            if (detection instanceof AprilTagSingleDetection) {
+                AprilTagSingleDetection singleDetection = (AprilTagSingleDetection) detection;
+                if (singleDetection.metadata != null) {
+                    return singleDetection;
+                }
             }
         }
 
@@ -90,6 +92,15 @@ public class AprilTagDetector {
         }
 
     }
+    public double getPosX(int id) {
+        if (getTagById(id) != null) {
+            return getTagById(id).ftcPose.x;
+        }
+        return -999999;
+    }
+    public double getPosY(int id) {return getTagById(id).ftcPose.y;}
+    public double getPosZ(int id) {return getTagById(id).ftcPose.z;}
+
 
     public void stop() {
         if (visionPortal != null) {

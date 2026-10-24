@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.subsystems.Kicker;
 import org.firstinspires.ftc.teamcode.subsystems.Launcher;
 
 @TeleOp(name="BioBuzz TeleOp")
@@ -12,15 +13,26 @@ public class BioBuzzTeleOp extends LinearOpMode {
     // init
 
 
+    enum SystemState {
+        OFF,
+        INTAKE,
+        SHOOT
+    }
+
+    SystemState systemState;
+
     Drive drive;
     Launcher launcher;
     Intake intake;
+    Kicker kicker;
 
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new Drive(hardwareMap);
         intake = new Intake(hardwareMap);
         launcher = new Launcher(hardwareMap);
+        kicker = new Kicker(hardwareMap);
+        systemState = SystemState.OFF;
 
         double forward;
         double strafe;
@@ -43,16 +55,42 @@ public class BioBuzzTeleOp extends LinearOpMode {
             if (gamepad1.y) {
                 launcher.toggleLauncher();
             }
+            // TEST
+//            if (gamepad1.dpad_up) {
+//                launcher.changeVelocity(10);
+//            } else if (gamepad1.dpad_down) {
+//                launcher.changeVelocity(-10);
+//            }
 
-            if (gamepad1.dpad_up) {
-                launcher.changeVelocity(10);
-            } else if (gamepad1.dpad_down) {
-                launcher.changeVelocity(-10);
+            if (gamepad1.a) {
+                kicker.moveUp();
+                telemetry.addData("kicker: ", "up");
+            } else if (gamepad1.b) {
+                kicker.moveDown();
+                telemetry.addData("kicker: ", "down");
             }
 
+
+            if (gamepad1.right_bumper) {
+                systemState = SystemState.INTAKE;
+            }
+
+
+
+
             telemetry.addData("Target Velocity: ", launcher.getTargetVelocityTelemetry());
-            telemetry.addData("Velocity: ", launcher.getVelocityTelemetry());
+            telemetry.addData("left Velocity: ", launcher.getVelocityTelemetry());
+            telemetry.addData("right Velocity: ", launcher.getRightVelocityTelemetry());
             telemetry.update();
+        }
+    }
+
+    public void updateState() {
+        switch (systemState) {
+            case OFF:
+                intake.stopIntake();
+                launcher.stopLauncher();
+
         }
     }
 }

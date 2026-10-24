@@ -24,7 +24,6 @@ public class Intake {
         rightIntake = HW.get(CRServo.class, "rightIntake");
 
         // TODO: check the direction of the servos
-        geckoWheels.setDirection(DcMotorSimple.Direction.REVERSE);
 
         geckoWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
