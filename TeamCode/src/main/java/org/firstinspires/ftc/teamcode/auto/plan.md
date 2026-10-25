@@ -2,6 +2,10 @@
 
 This is the file where the plan for the auto can go.
 
+## Important
+### Each match the position of the hives are not randomized and always in the same starting position
+We need to make a decision on weather we make two main autos, one for the blue side and one for the red side.
+Or if we want to do the original plan of making one main auto that can check and figure out what side it is on and run that routine.
 ## States
 
 These are the states that will run during the auto
