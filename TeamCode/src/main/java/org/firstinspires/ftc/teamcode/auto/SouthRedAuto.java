@@ -15,18 +15,24 @@ import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.pedro.Constants;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.subsystems.Kicker;
+import org.firstinspires.ftc.teamcode.subsystems.Launcher;
 
-@Autonomous
+@Autonomous(name ="red auto")
 public class SouthRedAuto extends OpMode {
 
     private Follower follower;
     private PoseFactory poseFactory = PoseFactory.degrees();
-
+    Launcher launcher;
+    Intake intake;
+    Kicker kicker;
     // poses
-
-    private final Pose startPose = poseFactory.of(35, 10,90);
+    ElapsedTime timer = new ElapsedTime();
+    private final Pose startPose = poseFactory.of(58, 10,90);
     private final Pose parkPose = poseFactory.of(12, 95, 90);
 
     private Path startToPark() {
@@ -34,6 +40,20 @@ public class SouthRedAuto extends OpMode {
     }
 
     private Command routine() {
+        kicker.moveDown();
+        intake.startIntake();
+        launcher.startLauncher();
+        while ((launcher.getVelocityTelemetry() <= launcher.LAUNCHER_TARGET_VELOCITY - 50)){
+
+        }
+        kicker.moveUp();
+        timer.reset();
+        while (timer.seconds() < 5) {
+
+        }
+        launcher.stopLauncher();
+        intake.stopIntake();
+        kicker.moveDown();
         return sequential(
                 follow(follower, startToPark())
         );
@@ -44,6 +64,9 @@ public class SouthRedAuto extends OpMode {
         Scheduler.reset();
         follower = Constants.create(hardwareMap);
         follower.setPose(startPose);
+        launcher = new Launcher(hardwareMap);
+        intake = new Intake(hardwareMap);
+        kicker = new Kicker(hardwareMap);
 
         follower.update();
     }

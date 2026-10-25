@@ -10,15 +10,15 @@ public class Kicker {
     public Kicker(HardwareMap HW) {
         kicker = HW.get(Servo.class, "catcher");
 
-        kicker.setDirection(Servo.Direction.REVERSE);
+
     }
 
     public void moveUp() {
-        kicker.setPosition(1);
+        kicker.setPosition(0.5);
 
     }
 
     public void moveDown() {
-        kicker.setPosition(0.5);
+        kicker.setPosition(0.1);
     }
 }

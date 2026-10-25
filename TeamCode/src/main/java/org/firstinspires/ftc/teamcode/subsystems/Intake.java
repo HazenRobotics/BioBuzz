@@ -53,4 +53,7 @@ public class Intake {
         leftIntake.setPower(MAX_SPEED_INTAKE_WHEELS);
         rightIntake.setPower(MAX_SPEED_INTAKE_WHEELS);
     }
+    public void intakeReverse() {
+        geckoWheels.setPower(-MAX_SPEED_GECKO_WHEELS);
+    }
 }
