@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Kicker;
 import org.firstinspires.ftc.teamcode.subsystems.Launcher;
 
-@Autonomous(name ="red auto")
+@Autonomous(name = "red auto", group = "comp1")
 public class SouthRedAuto extends OpMode {
 
     private Follower follower;
@@ -43,7 +43,7 @@ public class SouthRedAuto extends OpMode {
         kicker.moveDown();
         intake.startIntake();
         launcher.startLauncher();
-        while ((launcher.getVelocityTelemetry() <= launcher.LAUNCHER_TARGET_VELOCITY - 50)){
+        while ((launcher.getLeftVelocityTelemetry() <= launcher.LAUNCHER_TARGET_VELOCITY - 50)){
 
         }
         kicker.moveUp();

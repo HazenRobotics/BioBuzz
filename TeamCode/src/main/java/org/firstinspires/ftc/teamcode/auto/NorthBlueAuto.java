@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Kicker;
 import org.firstinspires.ftc.teamcode.subsystems.Launcher;
 
-@Autonomous(name="blue auto")
+@Autonomous(name="blue auto", group = "comp1")
 public class NorthBlueAuto extends OpMode {
     private Follower follower;
     private PoseFactory poseFactory = PoseFactory.degrees();
@@ -40,7 +40,7 @@ public class NorthBlueAuto extends OpMode {
         kicker.moveDown();
         intake.startIntake();
         launcher.startLauncher();
-        while ((launcher.getVelocityTelemetry() <= launcher.LAUNCHER_TARGET_VELOCITY - 50)){
+        while ((launcher.getLeftVelocityTelemetry() <= launcher.LAUNCHER_TARGET_VELOCITY - 50)){
 
         }
         kicker.moveUp();

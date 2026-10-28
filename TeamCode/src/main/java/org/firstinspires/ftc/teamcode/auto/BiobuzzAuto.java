@@ -101,7 +101,7 @@ public class BiobuzzAuto extends OpMode {
         Path firstPath;
 
         return sequential(
-            follow(follower, firstPath)
+//            follow(follower, firstPath)
             // could put commands that go after first path
         );
     }

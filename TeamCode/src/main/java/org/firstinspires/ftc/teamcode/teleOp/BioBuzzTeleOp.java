@@ -88,7 +88,7 @@ public class BioBuzzTeleOp extends LinearOpMode {
             updateState();
             telemetry.addData("State: ", systemState);
             telemetry.addData("Target Velocity: ", launcher.getTargetVelocityTelemetry());
-            telemetry.addData("left Velocity: ", launcher.getVelocityTelemetry());
+            telemetry.addData("left Velocity: ", launcher.getLeftVelocityTelemetry());
             telemetry.addData("right Velocity: ", launcher.getRightVelocityTelemetry());
             telemetry.update();
         }
@@ -113,7 +113,7 @@ public class BioBuzzTeleOp extends LinearOpMode {
                 break;
             case SHOOT:
                 launcher.startLauncher();
-                if (launcher.getVelocityTelemetry() >= launcher.LAUNCHER_TARGET_VELOCITY) {
+                if (launcher.getLeftVelocityTelemetry() >= launcher.LAUNCHER_TARGET_VELOCITY) {
                     kicker.moveUp();
                 }
                 break;

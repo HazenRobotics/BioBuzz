@@ -9,8 +9,7 @@ public class Launcher {
 
     private DcMotorEx leftLauncher;
     private DcMotorEx rightLauncher;
-    public int LAUNCHER_TARGET_VELOCITY = 1005;
-    public final int LAUNCHER_MIN_VELOCITY = 1200;
+    public final int LAUNCHER_TARGET_VELOCITY = 1005;
     private boolean launcherPowerStatus;
     public Launcher(HardwareMap HW) {
         leftLauncher = HW.get(DcMotorEx.class, "leftLauncher");
@@ -35,12 +34,6 @@ public class Launcher {
         }
     }
 
-    //test method should probably remove in the future
-    public void changeVelocity(int deltaVelocity) {
-        LAUNCHER_TARGET_VELOCITY += deltaVelocity;
-        startLauncher();
-    }
-
     public void startLauncher() {
         leftLauncher.setVelocity(LAUNCHER_TARGET_VELOCITY);
         rightLauncher.setVelocity(LAUNCHER_TARGET_VELOCITY);
@@ -53,7 +46,7 @@ public class Launcher {
 
 
     // mostly for testing
-    public double getVelocityTelemetry() {
+    public double getLeftVelocityTelemetry() {
         return leftLauncher.getVelocity();
     }
     public double getRightVelocityTelemetry() {

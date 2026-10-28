@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Kicker;
 import org.firstinspires.ftc.teamcode.subsystems.Launcher;
 
-@Autonomous
+@Autonomous(name = "blue just park", group = "comp1")
 public class BlueNoShoot extends OpMode {
     private Follower follower;
     private PoseFactory poseFactory = PoseFactory.degrees();

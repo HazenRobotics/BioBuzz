@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
-@Autonomous
+@Autonomous(name = "red just park", group = "comp1")
 public class RedNoShoot extends OpMode {
     private Follower follower;
     private PoseFactory poseFactory = PoseFactory.degrees();
