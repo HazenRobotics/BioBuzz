@@ -9,14 +9,16 @@ public class Launcher {
 
     private DcMotorEx leftLauncher;
     private DcMotorEx rightLauncher;
-    public final int LAUNCHER_TARGET_VELOCITY = 1005;
+    private int launcher_target_velocity = 1200;
+    private final int TOLERANCE = 50;
     private boolean launcherPowerStatus;
     public Launcher(HardwareMap HW) {
         leftLauncher = HW.get(DcMotorEx.class, "leftLauncher");
         rightLauncher = HW.get(DcMotorEx.class, "rightLauncher");
 
         rightLauncher.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        rightLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         leftLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -35,13 +37,17 @@ public class Launcher {
     }
 
     public void startLauncher() {
-        leftLauncher.setVelocity(LAUNCHER_TARGET_VELOCITY);
-        rightLauncher.setVelocity(LAUNCHER_TARGET_VELOCITY);
+        leftLauncher.setVelocity(launcher_target_velocity);
+        rightLauncher.setVelocity(launcher_target_velocity);
     }
 
     public void stopLauncher() {
         leftLauncher.setVelocity(0);
         rightLauncher.setVelocity(0);
+    }
+
+    public boolean isTargetVelocity() {
+        return leftLauncher.getVelocity() >= launcher_target_velocity - TOLERANCE;
     }
 
 
@@ -53,6 +59,6 @@ public class Launcher {
         return rightLauncher.getVelocity();
     }
     public int getTargetVelocityTelemetry() {
-        return LAUNCHER_TARGET_VELOCITY;
+        return launcher_target_velocity;
     }
 }

@@ -43,7 +43,7 @@ public class SouthRedAuto extends OpMode {
         kicker.moveDown();
         intake.startIntake();
         launcher.startLauncher();
-        while ((launcher.getLeftVelocityTelemetry() <= launcher.LAUNCHER_TARGET_VELOCITY - 50)){
+        while (launcher.isTargetVelocity()){
 
         }
         kicker.moveUp();

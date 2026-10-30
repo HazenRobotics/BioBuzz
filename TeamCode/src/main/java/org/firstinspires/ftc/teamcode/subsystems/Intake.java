@@ -3,9 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 public class Intake {
 
@@ -30,7 +28,7 @@ public class Intake {
         intakePowerStatus = false;
     }
 
-
+    // only used for specifically controlling the intake subsystem
     public void toggleIntake() {
         intakePowerStatus = !intakePowerStatus;
 
@@ -44,14 +42,20 @@ public class Intake {
 
     public void stopIntake() {
         geckoWheels.setPower(STOP_SPEED);
-        leftIntake.setPower(STOP_SPEED);
-        rightIntake.setPower(STOP_SPEED);
     }
 
     public void startIntake() {
         geckoWheels.setPower(MAX_SPEED_GECKO_WHEELS);
+    }
+
+    public void startFlowerIntake() {
         leftIntake.setPower(MAX_SPEED_INTAKE_WHEELS);
         rightIntake.setPower(MAX_SPEED_INTAKE_WHEELS);
+    }
+
+    public void stopFlowerIntake() {
+        leftIntake.setPower(STOP_SPEED);
+        rightIntake.setPower(STOP_SPEED);
     }
     public void intakeReverse() {
         geckoWheels.setPower(-MAX_SPEED_GECKO_WHEELS);

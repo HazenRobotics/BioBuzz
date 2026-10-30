@@ -113,7 +113,7 @@ public class BioBuzzTeleOp extends LinearOpMode {
                 break;
             case SHOOT:
                 launcher.startLauncher();
-                if (launcher.getLeftVelocityTelemetry() >= launcher.LAUNCHER_TARGET_VELOCITY) {
+                if (launcher.isTargetVelocity()) {
                     kicker.moveUp();
                 }
                 break;
