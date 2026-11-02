@@ -30,6 +30,12 @@ public class NorthBlueAuto extends OpMode {
     // poses
     ElapsedTime timer = new ElapsedTime();
     private final Pose startPose = poseFactory.of(82, 131,-90);
+
+    // Might not go for WallBall's as hard to intake
+    private final Pose wallBallPose = poseFactory.of(134, 135,-90);
+    private final Pose firstFlowerPose = poseFactory.of(131, 95,-90);
+
+    private final Pose secondFlowerPose = poseFactory.of(98, 7,-90);
     private final Pose parkPose = poseFactory.of(127, 48, -90);
 
     private Path startToPark() {
