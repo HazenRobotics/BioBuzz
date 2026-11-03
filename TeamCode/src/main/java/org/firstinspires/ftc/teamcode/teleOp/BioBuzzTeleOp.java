@@ -71,6 +71,10 @@ public class BioBuzzTeleOp extends LinearOpMode {
 //                telemetry.addData("kicker: ", "down");
 //            }
 
+            if (gamepad1.a) {
+                intake.startFlowerIntake();
+            }
+
 
             if (gamepad1.right_bumper) {
                 systemState = SystemState.INTAKE;

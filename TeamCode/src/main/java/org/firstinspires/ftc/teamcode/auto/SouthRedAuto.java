@@ -32,12 +32,16 @@ public class SouthRedAuto extends OpMode {
     Kicker kicker;
     // poses
     ElapsedTime timer = new ElapsedTime();
-    private final Pose startPose = poseFactory.of(58, 10,90);
+    private final Pose startPose = poseFactory.of(56, 9,90);
+    private final Pose initialForwardPose = poseFactory.of(56, 35, 165);
+    private final Pose firstFlowerPose = poseFactory.of(12, 45.7243, 165);
+    private final Pose flowerToShootControlPose = poseFactory.of(14.45, 93.82, 0);
+    private final Pose shootCycle2Pose = poseFactory.of(59.78, 129.01, -90);
     private final Pose parkPose = poseFactory.of(12, 95, 90);
 
-    private Path startToPark() {
-        return line(startPose, parkPose).linear(startPose, parkPose);
-    }
+//    private Path startToForward() {
+//
+//    }
 
     private Command routine() {
         kicker.moveDown();
@@ -55,7 +59,7 @@ public class SouthRedAuto extends OpMode {
         intake.stopIntake();
         kicker.moveDown();
         return sequential(
-                follow(follower, startToPark())
+                //follow(follower, startToPark())
         );
     }
 
