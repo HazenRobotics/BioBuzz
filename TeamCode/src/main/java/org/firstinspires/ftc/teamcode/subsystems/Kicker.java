@@ -7,6 +7,9 @@ public class Kicker {
 
     Servo kicker;
 
+    double upPosition = 0.5;
+    double downPosition = 0.1;
+
     public Kicker(HardwareMap HW) {
         kicker = HW.get(Servo.class, "catcher");
 
@@ -14,11 +17,27 @@ public class Kicker {
     }
 
     public void moveUp() {
-        kicker.setPosition(0.5);
+        kicker.setPosition(upPosition);
 
     }
 
+    public void increasePosition() {
+        upPosition += 0.01;
+        downPosition += 0.01;
+        kicker.setPosition(upPosition);
+    }
+
+    public void decreasePosition() {
+        upPosition -= 0.01;
+        downPosition -= 0.01;
+        kicker.setPosition(upPosition);
+    }
+
     public void moveDown() {
-        kicker.setPosition(0.1);
+        kicker.setPosition(downPosition);
+    }
+
+    public double getPosition(){
+        return kicker.getPosition();
     }
 }
