@@ -126,7 +126,8 @@ public class HypotheticalNorthBlueAuto extends LinearOpMode {
                 break;
         }
     }
-
+// followPath() --> follower.follow()
+// follower.getPose().getX() --> follower.pose().x()
     public void setPathState(int pState) {
         pathState = pState;
         actionTimer.reset();
