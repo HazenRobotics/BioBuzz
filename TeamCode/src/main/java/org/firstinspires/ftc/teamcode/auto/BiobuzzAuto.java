@@ -128,7 +128,7 @@ public class BiobuzzAuto extends OpMode {
         aprilTagDetector.update();
         updateStateMachine();
 
-        telemetry.addData("XPos", aprilTagDetector.getPosX(30));
+        telemetry.addData("Tags: ", aprilTagDetector.getTagById(38));
         telemetry.update();
     }
 }

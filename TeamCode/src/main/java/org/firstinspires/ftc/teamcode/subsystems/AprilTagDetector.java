@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagClusterDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class AprilTagDetector {
 
+    private static final double TAG_SIZE_INCHES = 3.25;
     private AprilTagProcessor aprilTagProcessor;
     private VisionPortal visionPortal;
     private List<AprilTagDetection> detectedTags;
@@ -28,12 +30,18 @@ public class AprilTagDetector {
     public void init(HardwareMap HW, Telemetry telemetry) {
         this.telemetry = telemetry;
 
+        AprilTagLibrary.Builder lib = new AprilTagLibrary.Builder();
+                for (int id = 30; id <= 45; id++) {
+                    lib.addTag(id, "BioBuzz" + id, TAG_SIZE_INCHES, DistanceUnit.INCH);
+                }
+        
         aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setDrawTagID(true)
                 .setDrawTagOutline(true)
                 .setDrawAxes(true)
                 .setDrawCubeProjection(true)
                 .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
+                .setTagLibrary(lib.build())
                 .build();
 
         VisionPortal.Builder builder = new VisionPortal.Builder();
@@ -46,6 +54,13 @@ public class AprilTagDetector {
 
     public void update() {
         detectedTags = aprilTagProcessor.getDetections();
+        telemetry.addData("tags:", detectedTags.size());
+        for (AprilTagDetection tag: detectedTags) {
+            if (tag instanceof AprilTagSingleDetection) {
+                AprilTagSingleDetection single = (AprilTagSingleDetection) tag;
+                telemetry.addData("tag: ", single.id);
+            }
+        }
     }
 
     public List<AprilTagDetection> getDetectedTags() {
@@ -53,11 +68,14 @@ public class AprilTagDetector {
     }
 
     public AprilTagSingleDetection getTagById(int id) {
+        if (detectedTags == null) {
+            return null;
+        }
         for (AprilTagDetection detection : detectedTags) {
             if (detection instanceof AprilTagSingleDetection) {
-                AprilTagSingleDetection singleDetection = (AprilTagSingleDetection) detection;
-                if (singleDetection.metadata != null) {
-                    return singleDetection;
+                AprilTagSingleDetection single = (AprilTagSingleDetection) detection;
+                if (single.id == id) {
+                    return single;
                 }
             }
         }
