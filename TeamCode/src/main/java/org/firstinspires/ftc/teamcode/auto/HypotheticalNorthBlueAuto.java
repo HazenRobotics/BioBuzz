@@ -68,8 +68,8 @@ public class HypotheticalNorthBlueAuto extends LinearOpMode {
 
                 // Telemetry for debugging
                 telemetry.addData("Path State", pathState);
-                telemetry.addData("X", follower.getPose().getX());
-                telemetry.addData("Y", follower.getPose().getY());
+                telemetry.addData("X", follower.pose().x());
+                telemetry.addData("Y", follower.pose().y());
                 telemetry.update();
             }
         }
@@ -81,7 +81,7 @@ public class HypotheticalNorthBlueAuto extends LinearOpMode {
                 kicker.moveDown();
                 intake.startIntake();
                 launcher.startLauncher();
-                follower.followPath(toFirstFlower);
+                follower.follow(toFirstFlower);
                 setPathState(1);
                 break;
 
@@ -98,14 +98,14 @@ public class HypotheticalNorthBlueAuto extends LinearOpMode {
             case 2:
                 if (actionTimer.seconds() >= 2.0) {
                     kicker.moveDown();
-                    follower.followPath(toFarShoot);
+                    follower.follow(toFarShoot);
                     setPathState(3);
                 }
                 break;
 
             case 3:
                 if (!follower.isBusy()) {
-                    follower.followPath(toSecondFlower);
+                    follower.follow(toSecondFlower);
                     setPathState(4);
                 }
                 break;
@@ -114,7 +114,7 @@ public class HypotheticalNorthBlueAuto extends LinearOpMode {
                 if (!follower.isBusy()) {
                     launcher.stopLauncher();
                     intake.stopIntake();
-                    follower.followPath(toPark);
+                    follower.follow(toPark);
                     setPathState(5);
                 }
                 break;
@@ -126,8 +126,6 @@ public class HypotheticalNorthBlueAuto extends LinearOpMode {
                 break;
         }
     }
-
-    public function setPathState(int pState) {} // placeholder safety check
 
     public void setPathState(int pState) {
         pathState = pState;
