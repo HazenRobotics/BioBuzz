@@ -9,7 +9,7 @@ public class Kicker {
 
     public Kicker(HardwareMap HW) {
         kicker = HW.get(Servo.class, "catcher");
-
+        kicker.setDirection(Servo.Direction.REVERSE);
 
     }
 

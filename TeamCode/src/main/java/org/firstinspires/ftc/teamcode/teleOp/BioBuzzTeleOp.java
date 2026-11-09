@@ -25,12 +25,14 @@ public class BioBuzzTeleOp extends LinearOpMode {
     Drive drive;
     Launcher launcher;
     Intake intake;
+    Kicker kicker;
 
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new Drive(hardwareMap);
         intake = new Intake(hardwareMap);
         launcher = new Launcher(hardwareMap);
+        kicker = new Kicker(hardwareMap);
         systemState = SystemState.OFF;
 
         double forward;
@@ -69,9 +71,7 @@ public class BioBuzzTeleOp extends LinearOpMode {
 //                telemetry.addData("kicker: ", "down");
 //            }
 
-            if (gamepad1.a) {
-                intake.startFlowerIntake();
-            }
+
 
 
             if (gamepad1.right_bumper) {
@@ -100,22 +100,23 @@ public class BioBuzzTeleOp extends LinearOpMode {
         switch (systemState) {
             case OFF:
                 intake.stopIntake();
-                intake.stopFlowerIntake();
+                kicker.moveDown();
                 launcher.stopLauncher();
                 break;
             case INTAKE:
                 intake.startIntake();
-                intake.stopFlowerIntake();
+                kicker.moveDown();
                 launcher.stopLauncher();
                 break;
             case REVERSE:
                 intake.intakeReverse();
+                kicker.moveDown();
                 launcher.stopLauncher();
                 break;
             case SHOOT:
                 launcher.startLauncher();
                 if (launcher.isTargetVelocity()) {
-                    intake.startFlowerIntake();
+                    kicker.moveUp();
                 }
                 break;
         }
