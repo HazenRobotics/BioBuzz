@@ -39,27 +39,30 @@ public class SouthRedAuto extends OpMode {
     private final Pose shootCycle2Pose = poseFactory.of(59.78, 129.01, -90);
     private final Pose parkPose = poseFactory.of(12, 95, 90);
 
-//    private Path startToForward() {
-//
-//    }
+    private Path startToInitial() {
+        return line(startPose, initialForwardPose).linear(startPose, initialForwardPose);
+    }
+
+    Command shootThree = Command.build()
+            .setStart(() -> {
+                timer.reset();
+                kicker.moveDown();
+            })
+            .setExecute(() -> {
+                launcher.startLauncher();
+                if (launcher.isTargetVelocity()) {
+                    intake.startIntake();
+                    kicker.moveUp();
+                }
+            })
+            .setDone(() -> timer.seconds() >= 3)
+            .setEnd(endCondition -> launcher.stopLauncher());
+
 
     private Command routine() {
-        kicker.moveDown();
-        intake.startIntake();
-        launcher.startLauncher();
-        while (launcher.isTargetVelocity()){
-
-        }
-        kicker.moveUp();
-        timer.reset();
-        while (timer.seconds() < 5) {
-
-        }
-        launcher.stopLauncher();
-        intake.stopIntake();
-        kicker.moveDown();
         return sequential(
-                //follow(follower, startToPark())
+                shootThree,
+                follow(follower, startToInitial())
         );
     }
 
