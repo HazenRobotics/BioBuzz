@@ -47,32 +47,6 @@ public class BioBuzzTeleOp extends LinearOpMode {
             rotate = gamepad1.right_stick_x;
             drive.drive(forward, rotate, strafe);
 
-            // button that turns on and off the gecko wheels part of the intake system
-            // to be determined, decide if the intake should always be on in TeleOp
-//            if (gamepad1.x) {
-//                intake.toggleIntake();
-//            }
-//
-//            if (gamepad1.y) {
-//                launcher.toggleLauncher();
-//            }
-            // TEST
-//            if (gamepad1.dpad_up) {
-//                launcher.changeVelocity(10);
-//            } else if (gamepad1.dpad_down) {
-//                launcher.changeVelocity(-10);
-//            }
-
-//            if (gamepad1.a) {
-//                kicker.moveUp();
-//                telemetry.addData("kicker: ", "up");
-//            } else if (gamepad1.b) {
-//                kicker.moveDown();
-//                telemetry.addData("kicker: ", "down");
-//            }
-
-
-
 
             if (gamepad1.right_bumper) {
                 systemState = SystemState.INTAKE;
