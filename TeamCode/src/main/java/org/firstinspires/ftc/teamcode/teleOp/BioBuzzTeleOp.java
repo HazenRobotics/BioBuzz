@@ -14,9 +14,10 @@ public class BioBuzzTeleOp extends LinearOpMode {
 
 
     enum SystemState {
-        OFF,
+        IDLE,
         INTAKE,
         REVERSE,
+        PREPARE_TO_SHOOT,
         SHOOT
     }
 
@@ -33,7 +34,7 @@ public class BioBuzzTeleOp extends LinearOpMode {
         intake = new Intake(hardwareMap);
         launcher = new Launcher(hardwareMap);
         kicker = new Kicker(hardwareMap);
-        systemState = SystemState.OFF;
+        systemState = SystemState.IDLE;
 
         double forward;
         double strafe;
@@ -47,15 +48,20 @@ public class BioBuzzTeleOp extends LinearOpMode {
             rotate = gamepad1.right_stick_x;
             drive.drive(forward, rotate, strafe);
 
+            if (gamepad1.dpadUpWasPressed()) {
+                launcher.changeVelocity(5);
+            } else if (gamepad1.dpadDownWasPressed()) {
+                launcher.changeVelocity(-5);
+            }
 
             if (gamepad1.right_bumper) {
                 systemState = SystemState.INTAKE;
             }
             if (gamepad1.left_bumper) {
-                systemState = SystemState.SHOOT;
+                systemState = SystemState.PREPARE_TO_SHOOT;
             }
             if (gamepad1.b) {
-                systemState = SystemState.OFF;
+                systemState = SystemState.IDLE;
             }
             if (gamepad1.x) {
                 systemState = SystemState.REVERSE;
@@ -72,7 +78,7 @@ public class BioBuzzTeleOp extends LinearOpMode {
 
     public void updateState() { // TODO: separate shoot state with starting to shoot state
         switch (systemState) {
-            case OFF:
+            case IDLE:
                 intake.stopIntake();
                 kicker.moveDown();
                 launcher.stopLauncher();
@@ -87,10 +93,18 @@ public class BioBuzzTeleOp extends LinearOpMode {
                 kicker.moveDown();
                 launcher.stopLauncher();
                 break;
-            case SHOOT:
+            case PREPARE_TO_SHOOT:
+                kicker.moveDown();
                 launcher.startLauncher();
+                intake.startIntake();
                 if (launcher.isTargetVelocity()) {
-                    kicker.moveUp();
+                    systemState = SystemState.SHOOT;
+                }
+                break;
+            case SHOOT:
+                kicker.moveUp();
+                if (!launcher.isTargetVelocity()) {
+                    systemState = SystemState.PREPARE_TO_SHOOT;
                 }
                 break;
         }

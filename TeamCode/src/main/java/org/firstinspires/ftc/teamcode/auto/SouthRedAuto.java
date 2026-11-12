@@ -100,7 +100,11 @@ public class SouthRedAuto extends OpMode {
                 follow(follower, startToInitial()),
                 follow(follower, initialToFirstFlower()),
                 // intake from flower, still need to make that command
-                follow(follower, firstFlowerToCycle2())
+                follow(follower, firstFlowerToCycle2()),
+                shootFour
+                // go to second flower
+                // go back to cycle2 pose
+                //shootFour
         );
     }
 

@@ -9,7 +9,7 @@ public class Launcher {
 
     private DcMotorEx leftLauncher;
     private DcMotorEx rightLauncher;
-    private int launcher_target_velocity = 1200;
+    private int launcher_target_velocity = 1220;
     private final int TOLERANCE = 50;
     private boolean launcherPowerStatus;
     public Launcher(HardwareMap HW) {
@@ -52,6 +52,10 @@ public class Launcher {
 
 
     // mostly for testing
+
+    public void changeVelocity(int delta) {
+        launcher_target_velocity += delta;
+    }
     public double getLeftVelocityTelemetry() {
         return leftLauncher.getVelocity();
     }
