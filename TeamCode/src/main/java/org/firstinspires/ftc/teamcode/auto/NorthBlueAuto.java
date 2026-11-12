@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.auto;
 
+import static com.pedropathing.api.Paths.curve;
 import static com.pedropathing.api.Paths.line;
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
@@ -31,34 +32,82 @@ public class NorthBlueAuto extends OpMode {
     ElapsedTime timer = new ElapsedTime();
     private final Pose startPose = poseFactory.of(82, 131,-90);
 
-   // private final Pose wallBallPose = poseFactory.of(134, 135,-90);
+    private final Pose initialForwardPose = poseFactory.of(82, 131,-90);
+
+
+    // private final Pose wallBallPose = poseFactory.of(134, 135,-90);
     private final Pose firstFlowerPose = poseFactory.of(131, 95,180);
-    private final Pose farShootPose = poseFactory.of(84, 13,90);
+    private final Pose shootCycle2Pose = poseFactory.of(84, 13,90);
 
     private final Pose secondFlowerPose = poseFactory.of(89, 10,117);
     private final Pose parkPose = poseFactory.of(131, 27, -90);
 
-    private Path startToPark() {
-        return line(startPose, parkPose).linear(startPose, parkPose);
+    private Path startToInitial() {
+        return line(startPose, initialForwardPose).linear(startPose, initialForwardPose);
     }
 
+    private Path initialToFirstFlower() {
+        return line(initialForwardPose, firstFlowerPose).linear(initialForwardPose, firstFlowerPose);
+    }
+
+    // There is special curve we may have to take for this using flowerToShootControlPose
+    private Path firstFlowerToCycle2() {
+        return curve(firstFlowerPose, shootCycle2Pose).linear(firstFlowerPose, shootCycle2Pose);
+    }
+
+    Command shootThree = Command.build() // TODO: test to make sure robot actually shoots three balls
+            .setStart(() -> {
+                timer.reset();
+                kicker.moveDown();
+            })
+            .setExecute(() -> {
+                launcher.startLauncher();
+                if (launcher.isTargetVelocity()) {
+                    intake.startIntake();
+                    kicker.moveUp();
+                }
+            })
+            .setDone(() -> timer.seconds() >= 3)
+            .setEnd(endCondition -> {
+                launcher.stopLauncher();
+                intake.stopIntake();
+                kicker.moveDown();
+            });
+
+    Command shootFour = Command.build() // same case for the shoot three command
+            .setStart(() -> {
+                timer.reset();
+                kicker.moveDown();
+            })
+            .setExecute(() -> {
+                launcher.startLauncher();
+                if (launcher.isTargetVelocity()) {
+                    intake.startIntake();
+                    kicker.moveUp();
+                }
+            })
+            .setDone(() -> timer.seconds() >= 4)
+            .setEnd(endCondition -> {
+                launcher.stopLauncher();
+                intake.stopIntake();
+                kicker.moveDown();
+            });
+
+    //Command intakeThree = Command.build() Cannot make this because we cannot currently intake from flower
+    //Command intakeFour = Command.build() Same thing
+
+
     private Command routine() {
-        kicker.moveDown();
-        intake.startIntake();
-        launcher.startLauncher();
-        while (launcher.isTargetVelocity()){
-
-        }
-        kicker.moveUp();
-        timer.reset();
-        while (timer.seconds() < 5) {
-
-        }
-        launcher.stopLauncher();
-        intake.stopIntake();
-        kicker.moveDown();
         return sequential(
-                follow(follower, startToPark())
+                shootThree,
+                follow(follower, startToInitial()),
+                follow(follower, initialToFirstFlower()),
+                // intake from flower, still need to make that command
+                follow(follower, firstFlowerToCycle2()),
+                shootFour
+                // go to second flower
+                // go back to cycle2 pose
+                //shootFour
         );
     }
 
@@ -85,3 +134,4 @@ public class NorthBlueAuto extends OpMode {
         Scheduler.execute();
     }
 }
+

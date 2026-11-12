@@ -34,7 +34,7 @@ public class SouthRedAuto extends OpMode {
     // poses
     ElapsedTime timer = new ElapsedTime();
     private final Pose startPose = poseFactory.of(56, 9,90);
-    private final Pose initialForwardPose = poseFactory.of(56, 35, 165);
+    private final Pose initialForwardPose = poseFactory.of(56, 35, 90);
     private final Pose firstFlowerPose = poseFactory.of(12, 45.7243, 165);
     private final Pose flowerToShootControlPose = poseFactory.of(14.45, 93.82, 0);
     private final Pose shootCycle2Pose = poseFactory.of(59.78, 129.01, -90);
