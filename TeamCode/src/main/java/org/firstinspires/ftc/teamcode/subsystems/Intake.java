@@ -11,7 +11,6 @@ public class Intake {
 
     private boolean intakePowerStatus;
     private final double MAX_SPEED_GECKO_WHEELS = 0.65;
-    private final double STOP_SPEED = 0.0;
 
     public Intake(HardwareMap HW) {
         geckoWheels = HW.get(DcMotorEx.class, "geckoWheels");
@@ -34,7 +33,7 @@ public class Intake {
     }
 
     public void stopIntake() {
-        geckoWheels.setPower(STOP_SPEED);
+        geckoWheels.setPower(0);
     }
 
     public void startIntake() {

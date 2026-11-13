@@ -4,13 +4,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 public class Launcher {
 
     private DcMotorEx leftLauncher;
     private DcMotorEx rightLauncher;
     private int launcher_target_velocity = 1220;
-    private final int TOLERANCE = 50;
+    private final int TOLERANCE = 60;
+
+    private final double F = 13.8980;
+    private final double P = 0.6000;
     private boolean launcherPowerStatus;
     public Launcher(HardwareMap HW) {
         leftLauncher = HW.get(DcMotorEx.class, "leftLauncher");
@@ -19,6 +23,10 @@ public class Launcher {
         rightLauncher.setDirection(DcMotorSimple.Direction.REVERSE);
         rightLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+        leftLauncher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        rightLauncher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 
         leftLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
