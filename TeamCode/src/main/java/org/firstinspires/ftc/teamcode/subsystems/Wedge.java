@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -13,6 +14,8 @@ public class Wedge {
     public Wedge(HardwareMap HW) {
         wedge = HW.get(Servo.class, "wedge");
         flowerWheel = HW.get(CRServo.class, "flowerWheel");
+
+        flowerWheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
         isDown = false;
     }

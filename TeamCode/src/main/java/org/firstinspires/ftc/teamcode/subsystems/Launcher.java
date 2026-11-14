@@ -13,8 +13,8 @@ public class Launcher {
     private int launcher_target_velocity = 1220;
     private final int TOLERANCE = 60;
 
-    private final double F = 13.8980;
-    private final double P = 0.6000;
+    private final double F = 15.0000;
+    private final double P = 8.0000;
     private boolean launcherPowerStatus;
     public Launcher(HardwareMap HW) {
         leftLauncher = HW.get(DcMotorEx.class, "leftLauncher");

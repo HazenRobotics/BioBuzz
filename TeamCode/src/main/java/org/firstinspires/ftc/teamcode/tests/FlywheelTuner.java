@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 public class FlywheelTuner extends OpMode {
     public DcMotorEx flywheelMotorLeft;
     public DcMotorEx flywheelMotorRight;
-    public double MIN_targetVelocity = 1250; // TODO: change these for our robot
+    public double MIN_targetVelocity = 1220; // TODO: change these for our robot
     public double MAX_TargetVelocity = 1300;
     public double curTargetVelocity = MIN_targetVelocity;
     public double F = 0;

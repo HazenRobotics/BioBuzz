@@ -90,6 +90,7 @@ public class BioBuzzTeleOp extends LinearOpMode {
             telemetry.addData("Target Velocity: ", launcher.getTargetVelocityTelemetry());
             telemetry.addData("left Velocity: ", launcher.getLeftVelocityTelemetry());
             telemetry.addData("right Velocity: ", launcher.getRightVelocityTelemetry());
+            telemetry.addData("Wedge position: ", wedge.getWedgePosition());
             telemetry.update();
         }
     }
@@ -98,6 +99,7 @@ public class BioBuzzTeleOp extends LinearOpMode {
         switch (systemState) {
             case IDLE:
                 intake.stopIntake();
+                wedge.stopFlowerWheel();
                 transfer.stopTransfer();
                 kicker.moveDown();
                 launcher.stopLauncher();
@@ -118,7 +120,7 @@ public class BioBuzzTeleOp extends LinearOpMode {
             case PREPARE_TO_SHOOT:
                 kicker.moveDown();
                 launcher.startLauncher();
-                intake.startIntake();
+                intake.stopIntake();
                 transfer.startTransfer(Transfer.Speed.SLOW);
                 if (launcher.isTargetVelocity()) {
                     systemState = SystemState.SHOOT;
@@ -126,6 +128,7 @@ public class BioBuzzTeleOp extends LinearOpMode {
                 break;
             case SHOOT:
                 transfer.startTransfer(Transfer.Speed.FAST);
+                intake.startIntake();
                 kicker.moveUp();
                 if (!launcher.isTargetVelocity()) {
                     systemState = SystemState.PREPARE_TO_SHOOT;

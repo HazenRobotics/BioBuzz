@@ -16,23 +16,17 @@ import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.pedro.Constants;
-import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.Kicker;
-import org.firstinspires.ftc.teamcode.subsystems.Launcher;
+import org.firstinspires.ftc.teamcode.subsystems.PathingCommands;
 
 @Autonomous(name = "red auto", group = "comp1")
 public class SouthRedAuto extends OpMode {
 
     private Follower follower;
     private PoseFactory poseFactory = PoseFactory.degrees();
-    Launcher launcher;
-    Intake intake;
-    Kicker kicker;
+    private PathingCommands pathingCommands;
     // poses
-    ElapsedTime timer = new ElapsedTime();
     private final Pose startPose = poseFactory.of(56, 9,90);
     private final Pose initialForwardPose = poseFactory.of(56, 35, 90);
     private final Pose firstFlowerPose = poseFactory.of(12, 45.7243, 165);
@@ -52,56 +46,16 @@ public class SouthRedAuto extends OpMode {
         return curve(firstFlowerPose, flowerToShootControlPose, shootCycle2Pose).linear(firstFlowerPose, shootCycle2Pose);
     }
 
-    Command shootThree = Command.build() // TODO: test to make sure robot actually shoots three balls
-            .setStart(() -> {
-                timer.reset();
-                kicker.moveDown();
-            })
-            .setExecute(() -> {
-                launcher.startLauncher();
-                if (launcher.isTargetVelocity()) {
-                    intake.startIntake();
-                    kicker.moveUp();
-                }
-            })
-            .setDone(() -> timer.seconds() >= 3)
-            .setEnd(endCondition -> {
-                launcher.stopLauncher();
-                intake.stopIntake();
-                kicker.moveDown();
-            });
-
-    Command shootFour = Command.build() // same case for the shoot three command
-            .setStart(() -> {
-                timer.reset();
-                kicker.moveDown();
-            })
-            .setExecute(() -> {
-                launcher.startLauncher();
-                if (launcher.isTargetVelocity()) {
-                    intake.startIntake();
-                    kicker.moveUp();
-                }
-            })
-            .setDone(() -> timer.seconds() >= 4)
-            .setEnd(endCondition -> {
-                launcher.stopLauncher();
-                intake.stopIntake();
-                kicker.moveDown();
-            });
-
-    //Command intakeThree = Command.build() Cannot make this because we cannot currently intake from flower
-    //Command intakeFour = Command.build() Same thing
-
 
     private Command routine() {
         return sequential(
-                shootThree,
+                pathingCommands.shootThree,
+                pathingCommands.wedgeDown,
                 follow(follower, startToInitial()),
                 follow(follower, initialToFirstFlower()),
                 // intake from flower, still need to make that command
                 follow(follower, firstFlowerToCycle2()),
-                shootFour
+                pathingCommands.shootFour
                 // go to second flower
                 // go back to cycle2 pose
                 //shootFour
@@ -113,9 +67,7 @@ public class SouthRedAuto extends OpMode {
         Scheduler.reset();
         follower = Constants.create(hardwareMap);
         follower.setPose(startPose);
-        launcher = new Launcher(hardwareMap);
-        intake = new Intake(hardwareMap);
-        kicker = new Kicker(hardwareMap);
+        pathingCommands = new PathingCommands(hardwareMap);
 
         follower.update();
     }
